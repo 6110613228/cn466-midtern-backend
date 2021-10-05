@@ -3,8 +3,7 @@ const express = require('express');
 const mqtt = require('mqtt');
 
 // oz14ttRl6YWoISrD : insert_user
-const uri =
-  "mongodb+srv://insert_user:oz14ttRl6YWoISrD@cn466midterm.1lueq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = process.env.DB_URI
 
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
@@ -12,14 +11,14 @@ const client = new MongoClient(uri, {
 });
 
 // The database to use
-const dbName = "SensorData";
-const collectionName = "IncubatorDatabase";
+const dbName = process.env.DB;
+const collectionName = process.env.COLLECTION;
 
 const mqttClient = mqtt.connect("mqtt://broker.hivemq.com");
 
 mqttClient.on("connect", () => {
   console.log("HIVEMQ connected");
-  mqttClient.subscribe(["cn466/sensors/cucumber_2/#"], () => {
+  mqttClient.subscribe([process.env.TOPIC_ALL], () => {
     console.log("Topic subscribed");
   });
 });
