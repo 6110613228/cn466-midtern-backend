@@ -2,18 +2,21 @@ const { MongoClient } = require("mongodb");
 const express = require('express');
 const mqtt = require('mqtt');
 
-// oz14ttRl6YWoISrD : insert_user
-const uri = process.env.DB_URI
+// FILEDS
+const app = express();
+const port = process.env.PORT
 
+// MONGODB
+const uri = process.env.DB_URI
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-// The database to use
 const dbName = process.env.DB;
 const collectionName = process.env.COLLECTION;
 
+// MQTT
 const mqttClient = mqtt.connect("mqtt://broker.hivemq.com");
 
 mqttClient.on("connect", () => {
@@ -42,6 +45,16 @@ mqttClient.on("message", async (topic, payload) => {
   } catch (err) {
     console.log(err.stack);
   }
+});
+// END MQTT
+
+// API
+app.get('/', (req, res) => {
+  res.send({ msg: 'Hello, World' })
+})
+
+app.listen(port, () => {
+    console.log(`listening on ${port}`);
 });
 
 client.close();
