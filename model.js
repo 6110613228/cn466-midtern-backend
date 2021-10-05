@@ -42,6 +42,7 @@ mqttClient.on("message", async (topic, payload) => {
       .collection(collectionName)
       .insertOne(data, (err, response) => {
         if (err) throw err;
+        console.log("Document inserted!")
       });
   } catch (err) {
     console.log(err.stack);
