@@ -35,7 +35,7 @@ mqttClient.on("message", async (topic, payload) => {
   
   try {
     await client.connect();
-    await client.db(dbName).collection(collectionName).insertOne(data, (err, response) => {
+    client.db(dbName).collection(collectionName).insertOne(data, (err, response) => {
       if (err) throw err;
       console.log("Document inserted!", JSON.stringify(data))
     });
