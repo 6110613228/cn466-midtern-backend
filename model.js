@@ -1,28 +1,30 @@
 const { MongoClient } = require("mongodb");
 const express = require("express");
 const mqtt = require("mqtt");
-const cors = require('cors')
+const cors = require("cors");
 
 // FILEDS
 const app = express();
 const port = process.env.PORT;
 
+// Express
+app.use(express.json());
+
 // CORS
 const corsOption = {
-  origin: process.env.ORIGINS
-}
+  origin: process.env.ORIGINS,
+};
 
-app.use(cors(corsOption))
+app.use(cors(corsOption));
 
 // MONGODB
+const dbName = process.env.DB;
+const collectionName = process.env.COLLECTION;
 const uri = process.env.DB_URI;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-
-const dbName = process.env.DB;
-const collectionName = process.env.COLLECTION;
 
 // MQTT
 const mqttClient = mqtt.connect("mqtt://broker.hivemq.com");
@@ -107,6 +109,27 @@ app.get("/Incubator/IncubatorID/:InID", async (req, res) => {
     console.log(err);
     res.send({ result: false, message: "Fail", data: null });
   }
+});
+
+app.post("/Incubator/set", async (req, res) => {
+  let dataArr = [];
+  for (let i = 0; i < 14; i++) {
+    let data = {
+      pressure: Math.random() * (10500 - 10450) + 10450,
+      temperature: Math.random() * (55 - 43) + 43,
+      humidity: Math.random() * (60 - 48) + 48,
+      timestamp: new Date().toLocaleString("th"),
+      IncubatorID: req.body.InID,
+    };
+
+    dataArr[i] = data;
+    dataArr[req.body.option] = req.body.value;
+  }
+  res.send(dataArr);
+});
+
+app.all("*", (req, res) => {
+  res.send({ message: "Invalid URL maybe you should check it." }, 404);
 });
 
 app.listen(port, () => {
