@@ -115,15 +115,14 @@ app.post("/Incubator/set", async (req, res) => {
   let dataArr = [];
   for (let i = 0; i < 14; i++) {
     let data = {
-      pressure: Math.random() * (10500 - 10450) + 10450,
-      temperature: Math.random() * (55 - 43) + 43,
-      humidity: Math.random() * (60 - 48) + 48,
+      pressure: Math.round((Math.random() * (10500 - 10450) + 10450) * 100) / 100,
+      temperature: Math.round((Math.random() * (55 - 43) + 43) * 100) / 100,
+      humidity: Math.round((Math.random() * (60 - 48) + 48) * 100) / 100,
       timestamp: new Date().toLocaleString("th"),
-      IncubatorID: req.body.InID,
+      IncubatorID: parseInt(req.body.InID),
     };
-
-    dataArr[i] = data;
     dataArr[req.body.option] = req.body.value;
+    dataArr[i] = data;
   }
   res.send(dataArr);
 });
