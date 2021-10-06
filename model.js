@@ -69,6 +69,7 @@ app.get("/Incubator/All", async (req, res) => {
       .db(dbName)
       .collection(collectionName)
       .find({})
+      .sort({ timestamp: -1 })
       .toArray();
     res.send({ result: true, message: "Success", data: result });
   } catch (err) {
