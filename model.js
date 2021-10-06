@@ -7,6 +7,13 @@ const cors = require('cors')
 const app = express();
 const port = process.env.PORT;
 
+// CORS
+const corsOption = {
+  origin: process.env.ORIGINS
+}
+
+app.use(cors(corsOption))
+
 // MONGODB
 const uri = process.env.DB_URI;
 const client = new MongoClient(uri, {
@@ -51,7 +58,7 @@ mqttClient.on("message", async (topic, payload) => {
 // END MQTT
 
 // API
-app.get("/", cors(), (req, res) => {
+app.get("/", (req, res) => {
   res.send({ msg: "Hello, World" });
 });
 
