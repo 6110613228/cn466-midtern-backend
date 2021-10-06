@@ -121,7 +121,7 @@ app.post("/Incubator/set", async (req, res) => {
       timestamp: new Date().toLocaleString("th"),
       IncubatorID: parseInt(req.body.InID),
     };
-    dataArr[req.body.option] = req.body.value;
+    data[req.body.option] = req.body.value;
     dataArr[i] = data;
   }
   res.send(dataArr);
