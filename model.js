@@ -115,7 +115,8 @@ app.post("/Incubator/set", async (req, res) => {
   let dataArr = [];
   for (let i = 0; i < 14; i++) {
     let data = {
-      pressure: Math.round((Math.random() * (10500 - 10450) + 10450) * 100) / 100,
+      pressure:
+        Math.round((Math.random() * (10500 - 10450) + 10450) * 100) / 100,
       temperature: Math.round((Math.random() * (55 - 43) + 43) * 100) / 100,
       humidity: Math.round((Math.random() * (60 - 48) + 48) * 100) / 100,
       timestamp: new Date().toLocaleString("th"),
@@ -124,7 +125,21 @@ app.post("/Incubator/set", async (req, res) => {
     data[req.body.option] = req.body.value;
     dataArr[i] = data;
   }
-  res.send(dataArr);
+
+  try {
+    await client.connect();
+    client
+      .db(dbName)
+      .collection(collectionName)
+      .insertMany(dataArr, (err, response) => {
+        if (err) throw err;
+        console.log(response);
+        res.send({ result: true, message: "Success", response: response });
+      });
+  } catch (err) {
+    console.log(err);
+    res.send({ result: false, message: "Fail" });
+  }
 });
 
 app.all("*", (req, res) => {
