@@ -113,7 +113,7 @@ app.get("/Incubator/IncubatorID/:InID", async (req, res) => {
 
 app.post("/Incubator/set", async (req, res) => {
   let dataArr = [];
-  for (let i = 0; i < 14; i++) {
+  for (let i = 0; i < 11; i++) {
     let data = {
       pressure:
         Math.round((Math.random() * (10500 - 10450) + 10450) * 100) / 100,
@@ -134,7 +134,7 @@ app.post("/Incubator/set", async (req, res) => {
       .insertMany(dataArr, (err, response) => {
         if (err) throw err;
         console.log(response);
-        res.send({ result: true, message: "Success", response: response });
+        res.send({ result: true, message: "Success" });
       });
   } catch (err) {
     console.log(err);
