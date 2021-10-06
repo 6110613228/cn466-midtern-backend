@@ -1,6 +1,7 @@
 const { MongoClient } = require("mongodb");
 const express = require("express");
 const mqtt = require("mqtt");
+const cors = require('cors')
 
 // FILEDS
 const app = express();
@@ -42,7 +43,6 @@ mqttClient.on("message", async (topic, payload) => {
       .collection(collectionName)
       .insertOne(data, (err, response) => {
         if (err) throw err;
-        console.log("Document inserted!")
       });
   } catch (err) {
     console.log(err.stack);
@@ -51,7 +51,7 @@ mqttClient.on("message", async (topic, payload) => {
 // END MQTT
 
 // API
-app.get("/", (req, res) => {
+app.get("/", cors(), (req, res) => {
   res.send({ msg: "Hello, World" });
 });
 
