@@ -36,12 +36,17 @@ mqttClient.on("connect", () => {
   });
 });
 
+var acceleration = 0;
 mqttClient.on("message", async (topic, payload) => {
   // Data from payload
   let data = JSON.parse(payload);
-  delete data["acceleration"];
-  delete data["angular_velocity"];
 
+  acceleration = data["acceleration"] === undefined ? acceleration : data["acceleration"];
+  console.log(acceleration);
+
+  delete data["angular_velocity"];
+  delete data["acceleration"];
+  
   data["timestamp"] = new Date().toLocaleString("th", { timeZone: 'Asia/Bangkok' });
   data["IncubatorID"] = Math.round(Math.random() * (3 - 1) + 1);
 
