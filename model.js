@@ -2,7 +2,7 @@ const { MongoClient } = require("mongodb");
 const express = require("express");
 const mqtt = require("mqtt");
 const cors = require("cors");
-const axios = require("axios");
+const { axios } = require("axios");
 
 // FILEDS
 const app = express();
@@ -43,27 +43,29 @@ mqttClient.on("message", async (topic, payload) => {
 
   let angular_velocity = data["angular_velocity"];
   if (angular_velocity[0] > 0.5) {
-    console.log('In if')
-    axios.post(
-      "https://api.line.me/v2/bot/message/broadcast",
-      {
-        "message" : [
-          {
-            "type": "text",
-            "text": angular_velocity[0]
-          }
-        ],
-        "notificationDisabled": false
-      },
-      {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: process.env.CHANNEL_TOKEN,
+    console.log("In if");
+    axios
+      .post(
+        "https://api.line.me/v2/bot/message/broadcast",
+        {
+          message: [
+            {
+              type: "text",
+              text: angular_velocity[0],
+            },
+          ],
+          notificationDisabled: false,
         },
-      }
-    ).catch((err) => {
-      console.log(err)
-    });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: process.env.CHANNEL_TOKEN,
+          },
+        }
+      )
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   delete data["angular_velocity"];
