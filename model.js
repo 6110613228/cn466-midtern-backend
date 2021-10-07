@@ -42,7 +42,7 @@ mqttClient.on("message", async (topic, payload) => {
   delete data["acceleration"];
   delete data["angular_velocity"];
 
-  data["timestamp"] = new Date().toLocaleString("th", { timeZone: 'ICT' });
+  data["timestamp"] = new Date().toLocaleString("th", { timeZone: 'Asia/Bangkok' });
   data["IncubatorID"] = Math.round(Math.random() * (3 - 1) + 1);
 
   try {
@@ -119,7 +119,7 @@ app.post("/Incubator/set", async (req, res) => {
         Math.round((Math.random() * (10500 - 10450) + 10450) * 100) / 100,
       temperature: Math.round((Math.random() * (55 - 43) + 43) * 100) / 100,
       humidity: Math.round((Math.random() * (60 - 48) + 48) * 100) / 100,
-      timestamp: new Date().toLocaleString("th", { timeZone: 'ICT' }),
+      timestamp: new Date().toLocaleString("th", { timeZone: 'Asia/Bangkok' }),
       IncubatorID: parseInt(req.body.InID),
     };
     data[req.body.option] = req.body.value;
