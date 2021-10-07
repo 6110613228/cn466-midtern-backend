@@ -121,7 +121,7 @@ app.get("/Incubator/Latest/:InID", async (req, res) => {
       .find({ IncubatorID: parseInt(req.params.InID) })
       .sort({ timestamp: -1 })
       .toArray();
-    res.send({ result: true, message: "Success", data: result });
+    res.send({ result: true, message: "Success", data: result[0] });
   } catch (err) {
     console.log(err);
     res.send({ result: false, message: "Fail", data: null });
