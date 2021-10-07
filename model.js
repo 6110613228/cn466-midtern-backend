@@ -66,6 +66,9 @@ mqttClient.on("message", async (topic, payload) => {
           },
         }
       )
+      .then(
+        console.log('Line Alerted!')
+      )
       .catch((err) => {
         console.log(err.response.data);
       });
