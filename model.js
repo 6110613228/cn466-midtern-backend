@@ -41,6 +41,11 @@ mqttClient.on("message", async (topic, payload) => {
   // Data from payload
   let data = JSON.parse(payload);
 
+  data["timestamp"] = new Date().toLocaleString("th", {
+    timeZone: "Asia/Bangkok",
+  });
+  data["IncubatorID"] = Math.round(Math.random() * (3 - 1) + 1);
+
   let angular_velocity = data["angular_velocity"];
   if (angular_velocity[0] > 0.5) {
     axios
@@ -50,10 +55,9 @@ mqttClient.on("message", async (topic, payload) => {
           messages: [
             {
               type: "text",
-              text: angular_velocity[0],
+              text: `ประตูเครื่องที่ ${data["IncubatorID"]} เปิด`,
             },
           ],
-          notificationDisabled: false,
         },
         {
           headers: {
@@ -69,11 +73,6 @@ mqttClient.on("message", async (topic, payload) => {
 
   delete data["angular_velocity"];
   delete data["acceleration"];
-
-  data["timestamp"] = new Date().toLocaleString("th", {
-    timeZone: "Asia/Bangkok",
-  });
-  data["IncubatorID"] = Math.round(Math.random() * (3 - 1) + 1);
 
   try {
     await client.connect();
