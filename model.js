@@ -135,6 +135,7 @@ app.get("/Incubator/IncubatorID/:InID", async (req, res) => {
       .db(dbName)
       .collection(collectionName)
       .find({ IncubatorID: parseInt(req.params.InID) })
+      .sort({ timestamp: -1 })
       .toArray();
     res.send({ result: true, message: "Success", data: result });
   } catch (err) {
