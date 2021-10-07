@@ -42,7 +42,7 @@ mqttClient.on("message", async (topic, payload) => {
   let data = JSON.parse(payload);
 
   angular_velocity = data["angular_velocity"];
-  console.log(acceleration);
+  console.log(angular_velocity);
 
   delete data["angular_velocity"];
   delete data["acceleration"];
