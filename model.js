@@ -51,7 +51,8 @@ mqttClient.on("message", async (topic, payload) => {
             "type": "text",
             "text": angular_velocity[0]
           }
-        ]
+        ],
+        "notificationDisabled": false
       },
       {
         headers: {
@@ -59,7 +60,9 @@ mqttClient.on("message", async (topic, payload) => {
           Authorization: process.env.CHANNEL_TOKEN,
         },
       }
-    );
+    ).catch((err) => {
+      console.log(err)
+    });
   }
 
   delete data["angular_velocity"];
