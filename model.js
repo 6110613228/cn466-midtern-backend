@@ -133,7 +133,6 @@ app.post("/Incubator/set", async (req, res) => {
       .collection(collectionName)
       .insertMany(dataArr, (err, response) => {
         if (err) throw err;
-        console.log(response);
         res.send({ result: true, message: "Success" });
       });
   } catch (err) {
