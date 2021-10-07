@@ -112,13 +112,13 @@ app.get("/Incubator/All", async (req, res) => {
   }
 });
 
-app.get("/Incubator/Latest", async (req, res) => {
+app.get("/Incubator/Latest/:InID", async (req, res) => {
   try {
     await client.connect();
     let result = await client
       .db(dbName)
       .collection(collectionName)
-      .find({})
+      .find({ IncubatorID: req.params.InID })
       .sort({ timestamp: -1 })
       .toArray();
     res.send({ result: true, message: "Success", data: result[0] });
