@@ -118,7 +118,7 @@ app.get("/Incubator/Latest/:InID", async (req, res) => {
     let result = await client
       .db(dbName)
       .collection(collectionName)
-      .find({ IncubatorID: req.params.InID })
+      .find({ IncubatorID: parseInt(req.params.InID) })
       .sort({ timestamp: -1 })
       .toArray();
     res.send({ result: true, message: "Success", data: result });
