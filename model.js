@@ -43,7 +43,6 @@ mqttClient.on("message", async (topic, payload) => {
 
   let angular_velocity = data["angular_velocity"];
   if (angular_velocity[0] > 0.5) {
-    console.log("In if");
     axios
       .post(
         "https://api.line.me/v2/bot/message/broadcast",
@@ -59,7 +58,7 @@ mqttClient.on("message", async (topic, payload) => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: process.env.CHANNEL_TOKEN,
+            Authorization: `Bearer ${process.env.CHANNEL_TOKEN}``,
           },
         }
       )
