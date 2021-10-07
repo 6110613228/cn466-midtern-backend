@@ -36,12 +36,12 @@ mqttClient.on("connect", () => {
   });
 });
 
-var acceleration = 0;
+var acceleration = [];
 mqttClient.on("message", async (topic, payload) => {
   // Data from payload
   let data = JSON.parse(payload);
 
-  acceleration = data["acceleration"] === undefined ? acceleration : data["acceleration"];
+  acceleration = data["acceleration"];
   console.log(acceleration);
 
   delete data["angular_velocity"];
