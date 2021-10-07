@@ -36,18 +36,38 @@ mqttClient.on("connect", () => {
   });
 });
 
-var angular_velocity = [0, 0, 0];
 mqttClient.on("message", async (topic, payload) => {
   // Data from payload
   let data = JSON.parse(payload);
 
-  angular_velocity = data["angular_velocity"];
-  console.log(angular_velocity);
+  let angular_velocity = data["angular_velocity"];
+  if (angular_velocity[0] > 0.5) {
+    console.log('In if')
+    axios.post(
+      "https://api.line.me/v2/bot/message/broadcast",
+      {
+        "message" : [
+          {
+            "type": "text",
+            "text": angular_velocity[0]
+          }
+        ]
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.CHANNEL_TOKEN,
+        },
+      }
+    );
+  }
 
   delete data["angular_velocity"];
   delete data["acceleration"];
 
-  data["timestamp"] = new Date().toLocaleString("th", { timeZone: 'Asia/Bangkok' });
+  data["timestamp"] = new Date().toLocaleString("th", {
+    timeZone: "Asia/Bangkok",
+  });
   data["IncubatorID"] = Math.round(Math.random() * (3 - 1) + 1);
 
   try {
@@ -124,7 +144,7 @@ app.post("/Incubator/set", async (req, res) => {
         Math.round((Math.random() * (10500 - 10450) + 10450) * 100) / 100,
       temperature: Math.round((Math.random() * (55 - 43) + 43) * 100) / 100,
       humidity: Math.round((Math.random() * (60 - 48) + 48) * 100) / 100,
-      timestamp: new Date().toLocaleString("th", { timeZone: 'Asia/Bangkok' }),
+      timestamp: new Date().toLocaleString("th", { timeZone: "Asia/Bangkok" }),
       IncubatorID: parseInt(req.body.InID),
     };
     data[req.body.option] = req.body.value;
