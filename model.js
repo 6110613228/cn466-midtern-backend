@@ -47,7 +47,7 @@ mqttClient.on("message", async (topic, payload) => {
       .post(
         "https://api.line.me/v2/bot/message/broadcast",
         {
-          message: [
+          messages: [
             {
               type: "text",
               text: angular_velocity[0],
@@ -63,7 +63,7 @@ mqttClient.on("message", async (topic, payload) => {
         }
       )
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data);
       });
   }
 
