@@ -10,7 +10,7 @@ Line Chatbot repo provided by **Rathapol P.** can be found [here](https://github
 
 ## Detail
 
-This project's agenda is to study Internet of Thing, We setup a ESP32S2 board inside an incubator to detect Temparature, Pressure, Humidity, angular velocity and acceleration to make a smart incubator that can be track on a website and Chatbot.
+This project's agenda is to study Internet of Thing, We setup a ESP32S2 board inside an incubator to detect Temparature, Pressure, Humidity, angular velocity and acceleration to make a smart incubator that can be track on a [website](https://cn466-midterm-frontend.herokuapp.com/) and Chatbot.
 
 This repository is made for IoT backend API using Express.js as a web framework workflow and overview of this project is describe by picture below.
 
